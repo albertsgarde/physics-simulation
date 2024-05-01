@@ -8,15 +8,23 @@ pub struct Config {
     gravity: Vector,
     width: f32,
     height: f32,
+    repulsion_constant: f32,
 }
 
 impl Config {
-    pub fn new(delta_per_tick: f32, gravity: Vector, width: f32, height: f32) -> Self {
+    pub fn new(
+        delta_per_tick: f32,
+        gravity: Vector,
+        width: f32,
+        height: f32,
+        repulsion_constant: f32,
+    ) -> Self {
         Self {
             delta_per_tick,
             gravity,
             width,
             height,
+            repulsion_constant,
         }
     }
 
@@ -34,5 +42,9 @@ impl Config {
 
     pub fn height(&self) -> f32 {
         self.height
+    }
+
+    pub fn repulsion_constant(&self) -> f32 {
+        self.repulsion_constant
     }
 }

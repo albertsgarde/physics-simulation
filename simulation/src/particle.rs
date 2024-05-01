@@ -21,6 +21,12 @@ impl Particle {
         self.velocity
     }
 
+    pub fn repulsion_from(&self, other: &Particle) -> Vector {
+        let distance = self.location - other.location;
+        let magnitude = 1. / distance.norm_squared();
+        distance.normalize() * magnitude
+    }
+
     pub fn rebound(&mut self, x_limits: (f32, f32), y_limits: (f32, f32)) {
         let (x_min, x_max) = x_limits;
         let (y_min, y_max) = y_limits;

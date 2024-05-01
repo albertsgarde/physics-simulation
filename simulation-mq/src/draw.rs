@@ -1,16 +1,19 @@
-use macroquad::color::{self, Color};
+use macroquad::{
+    color::{self, Color},
+    shapes,
+};
 use simulation::{Location, Particle, State};
 
 use crate::{ui_state::UiState, ScreenPosition};
 
 pub fn draw_circle(position: ScreenPosition, radius: f32, color: Color) {
-    macroquad::shapes::draw_circle(position.x, position.y, radius, color);
+    shapes::draw_circle(position.x, position.y, radius, color);
 }
 
 pub fn draw_particle(particle: Particle, ui_state: &UiState) {
     let screen_position = ui_state.world_to_screen(particle.location());
 
-    draw_circle(screen_position, 5., color::WHITE);
+    draw_circle(screen_position, 1., color::WHITE);
 }
 
 pub fn draw(state: &State, ui_state: &UiState) {

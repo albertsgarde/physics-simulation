@@ -1,4 +1,7 @@
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
+use std::{
+    iter::Sum,
+    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign},
+};
 
 use serde::{Deserialize, Serialize};
 
@@ -159,5 +162,11 @@ impl Div<f32> for Vector {
     fn div(mut self, rhs: f32) -> Vector {
         self /= rhs;
         self
+    }
+}
+
+impl Sum for Vector {
+    fn sum<I: Iterator<Item = Vector>>(iter: I) -> Self {
+        iter.fold(Vector::new(0., 0.), Add::add)
     }
 }
