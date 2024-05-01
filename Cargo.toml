@@ -1,0 +1,4 @@
+[workspace]
+members = ["simulation-mq", "simulation"]
+default-members = ["simulation-mq"]
+resolver = "2"
