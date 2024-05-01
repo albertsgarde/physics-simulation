@@ -1,8 +1,8 @@
 use macroquad::{
-    time,
+    input, time,
     window::{self, Conf},
 };
-use simulation::{Config, State};
+use simulation::{Config, Event, Location, Particle, State, Vector};
 use simulation_mq::{draw, UiConfig};
 
 trait TickFunction: FnMut() {}
@@ -40,16 +40,21 @@ fn window_conf() -> Conf {
 async fn main() {
     let ui_config = UiConfig::new(20.);
 
-    let config = Config::new();
+    let config = Config::new(0.05, 900., 900.);
 
     let mut state = State::new(config);
 
     let mut tick = Tick::new();
 
+    let mut events = vec![Event::AddParticle(Particle::new(
+        Location::new(450., 450.),
+        Vector::new(0., 0.),
+    ))];
+
     loop {
         tick.elapse_time(
             time::get_frame_time() * ui_config.ticks_per_second(),
-            || state.tick(),
+            || state.tick(events.drain(..)),
         );
 
         draw::draw(&state, &ui_config);
