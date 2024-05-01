@@ -18,6 +18,10 @@ impl State {
         }
     }
 
+    pub fn config(&self) -> &Config {
+        &self.config
+    }
+
     pub fn particles(&self) -> &[Particle] {
         &self.particles
     }
@@ -32,7 +36,8 @@ impl State {
         });
 
         self.particles.iter_mut().for_each(|particle| {
-            *particle = particle.update_local(self.config.delta_per_tick());
+            particle.velocity += self.config.gravity() * self.config.delta_per_tick();
+            particle.location += particle.velocity * self.config.delta_per_tick();
         });
 
         self.history.push(events);

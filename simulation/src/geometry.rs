@@ -1,4 +1,4 @@
-use std::ops::{Add, Div, Mul, Sub};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
 use delegate::delegate;
 use nalgebra::Vector2;
@@ -67,6 +67,12 @@ impl Add<Vector> for Location {
     }
 }
 
+impl AddAssign<Vector> for Location {
+    fn add_assign(&mut self, rhs: Vector) {
+        self.loc += rhs.vec;
+    }
+}
+
 impl Add<Vector> for Vector {
     type Output = Vector;
 
@@ -77,13 +83,24 @@ impl Add<Vector> for Vector {
     }
 }
 
+impl AddAssign<Vector> for Vector {
+    fn add_assign(&mut self, rhs: Vector) {
+        self.vec += rhs.vec;
+    }
+}
+
 impl Sub<Vector> for Location {
     type Output = Location;
 
-    fn sub(self, rhs: Vector) -> Location {
-        Location {
-            loc: self.loc - rhs.vec,
-        }
+    fn sub(mut self, rhs: Vector) -> Location {
+        self -= rhs;
+        self
+    }
+}
+
+impl SubAssign<Vector> for Location {
+    fn sub_assign(&mut self, rhs: Vector) {
+        self.loc -= rhs.vec;
     }
 }
 
@@ -94,6 +111,12 @@ impl Sub<Vector> for Vector {
         Vector {
             vec: self.vec - rhs.vec,
         }
+    }
+}
+
+impl SubAssign<Vector> for Vector {
+    fn sub_assign(&mut self, rhs: Vector) {
+        self.vec -= rhs.vec;
     }
 }
 
@@ -117,6 +140,12 @@ impl Mul<f32> for Vector {
     }
 }
 
+impl MulAssign<f32> for Vector {
+    fn mul_assign(&mut self, rhs: f32) {
+        self.vec *= rhs;
+    }
+}
+
 impl Div<f32> for Vector {
     type Output = Vector;
 
@@ -124,6 +153,12 @@ impl Div<f32> for Vector {
         Vector {
             vec: self.vec / rhs,
         }
+    }
+}
+
+impl DivAssign<f32> for Vector {
+    fn div_assign(&mut self, rhs: f32) {
+        self.vec /= rhs;
     }
 }
 

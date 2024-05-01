@@ -1,16 +1,20 @@
 use serde::{Deserialize, Serialize};
 
+use crate::Vector;
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
     delta_per_tick: f32,
+    gravity: Vector,
     width: f32,
     height: f32,
 }
 
 impl Config {
-    pub fn new(delta_per_tick: f32, width: f32, height: f32) -> Self {
+    pub fn new(delta_per_tick: f32, gravity: Vector, width: f32, height: f32) -> Self {
         Self {
             delta_per_tick,
+            gravity,
             width,
             height,
         }
@@ -18,6 +22,10 @@ impl Config {
 
     pub fn delta_per_tick(&self) -> f32 {
         self.delta_per_tick
+    }
+
+    pub fn gravity(&self) -> Vector {
+        self.gravity
     }
 
     pub fn width(&self) -> f32 {

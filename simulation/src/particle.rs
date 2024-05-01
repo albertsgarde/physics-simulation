@@ -4,8 +4,8 @@ use crate::geometry::{Location, Vector};
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
 pub struct Particle {
-    location: Location,
-    velocity: Vector,
+    pub location: Location,
+    pub velocity: Vector,
 }
 
 impl Particle {

@@ -1,14 +1,24 @@
-use simulation::{Particle, State};
+use macroquad::window;
+use simulation::{Location, Particle, State};
 
 use crate::UiConfig;
 
+pub fn state_to_screen(location: Location, ui_config: &UiConfig) -> Location {
+    let screen_x = location.x();
+    let screen_y = window::screen_height() - location.y();
+
+    Location::new(screen_x, screen_y)
+}
+
 pub fn draw_particle(particle: Particle, ui_config: &UiConfig) {
-    let location = particle.location();
-    let velocity = particle.velocity();
+    let screen_location = state_to_screen(particle.location(), ui_config);
 
-    let velocity = velocity.normalize();
-
-    macroquad::shapes::draw_circle(location.x(), location.y(), 5., macroquad::color::WHITE);
+    macroquad::shapes::draw_circle(
+        screen_location.x(),
+        screen_location.y(),
+        5.,
+        macroquad::color::WHITE,
+    );
 }
 
 pub fn draw(state: &State, ui_config: &UiConfig) {

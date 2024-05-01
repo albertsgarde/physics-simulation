@@ -40,7 +40,7 @@ fn window_conf() -> Conf {
 async fn main() {
     let ui_config = UiConfig::new(20.);
 
-    let config = Config::new(0.05, 900., 900.);
+    let config = Config::new(0.05, Vector::new(0., -9.81), 900., 900.);
 
     let mut state = State::new(config);
 
@@ -48,7 +48,7 @@ async fn main() {
 
     let mut events = vec![Event::AddParticle(Particle::new(
         Location::new(450., 450.),
-        Vector::new(0., 0.),
+        Vector::new(0., 1.),
     ))];
 
     loop {
