@@ -1,9 +1,9 @@
 use macroquad::{
-    time,
+    input, time,
     window::{self, Conf},
 };
 use simulation::{Config, Event, Location, Particle, State, Vector};
-use simulation_mq::{draw, UiConfig};
+use simulation_mq::{draw, ScreenPosition, UiConfig};
 
 trait TickFunction: FnMut() {}
 
@@ -54,7 +54,22 @@ async fn main() {
         Vector::new(0., 1.),
     ))];
 
+    let mut prev_mouse_position = None;
+
     loop {
+        let mouse_position = ScreenPosition::from_tuple(input::mouse_position());
+        let mouse_delta =
+            prev_mouse_position.map_or(Vector::new(0., 0.), |prev| mouse_position - prev);
+
+        if input::is_mouse_button_pressed(input::MouseButton::Left) {
+            events.push(Event::AddParticle(Particle::new(
+                ui_state.screen_to_world(mouse_position),
+                mouse_delta / ui_state.scale(),
+            )));
+        }
+
+        prev_mouse_position = Some(mouse_position);
+
         tick.elapse_time(
             time::get_frame_time() * ui_config.ticks_per_second(),
             || state.tick(events.drain(..)),

@@ -36,6 +36,14 @@ impl UiState {
         self.screen_height
     }
 
+    pub fn offset(&self) -> Vector {
+        self.offset
+    }
+
+    pub fn scale(&self) -> f32 {
+        self.scale
+    }
+
     pub fn offset_from_mid_offset(&self, mid_offset: Vector, state: &State) -> Vector {
         let mid_vec = Vector::new(self.screen_width / 2., self.screen_height / 2.);
         let offset = mid_offset + mid_vec
@@ -47,6 +55,13 @@ impl UiState {
         ScreenPosition {
             x: location.x * self.scale + self.offset.x,
             y: self.screen_height - (location.y * self.scale + self.offset.y),
+        }
+    }
+
+    pub fn screen_to_world(&self, position: ScreenPosition) -> Location {
+        Location {
+            x: (position.x - self.offset.x) / self.scale,
+            y: (self.screen_height - position.y - self.offset.y) / self.scale,
         }
     }
 
