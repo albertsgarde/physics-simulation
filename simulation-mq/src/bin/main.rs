@@ -1,5 +1,5 @@
 use macroquad::{
-    input, time,
+    time,
     window::{self, Conf},
 };
 use simulation::{Config, Event, Location, Particle, State, Vector};
@@ -38,16 +38,19 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 async fn main() {
-    let ui_config = UiConfig::new(20.);
-
-    let config = Config::new(0.05, Vector::new(0., -9.81), 900., 900.);
+    let config = Config::new(0.05, Vector::new(0., -9.81), 64., 64.);
 
     let mut state = State::new(config);
+
+    let ui_config = UiConfig::new(20., Vector::new(0., 0.), 10.);
+
+    let mut ui_state = ui_config.new_ui_state();
+    ui_state.set_offset(ui_state.offset_from_mid_offset(Vector::new(0., 0.), &state));
 
     let mut tick = Tick::new();
 
     let mut events = vec![Event::AddParticle(Particle::new(
-        Location::new(450., 450.),
+        Location::new(32., 32.),
         Vector::new(0., 1.),
     ))];
 
@@ -57,7 +60,9 @@ async fn main() {
             || state.tick(events.drain(..)),
         );
 
-        draw::draw(&state, &ui_config);
+        ui_state.update_window_info();
+
+        draw::draw(&state, &ui_state);
 
         window::next_frame().await
     }

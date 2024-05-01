@@ -146,6 +146,16 @@ impl MulAssign<f32> for Vector {
     }
 }
 
+impl Mul<Vector> for f32 {
+    type Output = Vector;
+
+    fn mul(self, rhs: Vector) -> Vector {
+        Vector {
+            vec: self * rhs.vec,
+        }
+    }
+}
+
 impl Div<f32> for Vector {
     type Output = Vector;
 
