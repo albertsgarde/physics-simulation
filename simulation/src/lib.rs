@@ -3,6 +3,7 @@ mod event;
 mod geometry;
 mod particle;
 mod state;
+mod utils;
 
 pub use config::Config;
 pub use event::Event;

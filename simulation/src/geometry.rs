@@ -1,6 +1,6 @@
 use std::{
     iter::Sum,
-    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign},
+    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
 };
 
 use serde::{Deserialize, Serialize};
@@ -162,6 +162,17 @@ impl Div<f32> for Vector {
     fn div(mut self, rhs: f32) -> Vector {
         self /= rhs;
         self
+    }
+}
+
+impl Neg for Vector {
+    type Output = Vector;
+
+    fn neg(self) -> Vector {
+        Vector {
+            x: -self.x,
+            y: -self.y,
+        }
     }
 }
 

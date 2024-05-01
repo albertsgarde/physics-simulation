@@ -9,6 +9,8 @@ pub struct Config {
     width: f32,
     height: f32,
     repulsion_constant: f32,
+    air_resistance: f32,
+    max_speed: f32,
 }
 
 impl Config {
@@ -18,6 +20,8 @@ impl Config {
         width: f32,
         height: f32,
         repulsion_constant: f32,
+        air_resistance: f32,
+        max_speed: f32,
     ) -> Self {
         Self {
             delta_per_tick,
@@ -25,6 +29,8 @@ impl Config {
             width,
             height,
             repulsion_constant,
+            air_resistance,
+            max_speed,
         }
     }
 
@@ -46,5 +52,13 @@ impl Config {
 
     pub fn repulsion_constant(&self) -> f32 {
         self.repulsion_constant
+    }
+
+    pub fn air_resistance(&self) -> f32 {
+        self.air_resistance
+    }
+
+    pub fn max_speed(&self) -> f32 {
+        self.max_speed
     }
 }

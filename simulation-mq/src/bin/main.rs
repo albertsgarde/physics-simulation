@@ -1,3 +1,5 @@
+use std::iter;
+
 use macroquad::{
     input, time,
     window::{self, Conf},
@@ -38,21 +40,23 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 async fn main() {
-    let config = Config::new(0.05, Vector::new(0., -9.81), 64., 64., 1.);
+    let config = Config::new(0.05, Vector::new(0., -9.81), 64., 64., 1., 0.1, 100.);
 
     let mut state = State::new(config);
 
-    let ui_config = UiConfig::new(20., Vector::new(0., 0.), 10.);
+    let ui_config: UiConfig = UiConfig::new(200., Vector::new(0., 0.), 10.);
 
     let mut ui_state = ui_config.new_ui_state();
     ui_state.set_offset(ui_state.offset_from_mid_offset(Vector::new(0., 0.), &state));
 
     let mut tick = Tick::new();
 
-    let mut events = vec![Event::AddParticle(Particle::new(
+    let mut events: Vec<_> = iter::repeat(Event::AddParticle(Particle::new(
         Location::new(32., 32.),
         Vector::new(0., 1.),
-    ))];
+    )))
+    .take(1000)
+    .collect();
 
     let mut prev_mouse_position = None;
 

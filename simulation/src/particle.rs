@@ -21,10 +21,21 @@ impl Particle {
         self.velocity
     }
 
-    pub fn repulsion_from(&self, other: &Particle) -> Vector {
-        let distance = self.location - other.location;
-        let magnitude = 1. / distance.norm_squared();
-        distance.normalize() * magnitude
+    pub fn repulsion_from(&self, other: &Particle) -> Option<Vector> {
+        let diff = self.location - other.location;
+        let distance_squared = diff.norm_squared();
+        if distance_squared == 0. {
+            return None;
+        }
+        let magnitude = 1. / distance_squared;
+        assert!(magnitude.is_finite() && magnitude > 0.);
+        let result = diff.normalize() * magnitude;
+        assert!(result.x.is_finite() && result.y.is_finite());
+        Some(result)
+    }
+
+    pub fn air_resistance(&self) -> Vector {
+        -self.velocity * self.velocity.norm()
     }
 
     pub fn rebound(&mut self, x_limits: (f32, f32), y_limits: (f32, f32)) {
