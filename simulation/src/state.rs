@@ -1,20 +1,26 @@
+use rand::SeedableRng;
+use rand_xoshiro::Xoshiro256PlusPlus;
 use serde::{Deserialize, Serialize};
 
 use crate::{config::Config, event::Event, particle::Particle, utils, Vector};
+
+type Rng = Xoshiro256PlusPlus;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct State {
     history: Vec<Vec<Event>>,
     config: Config,
     particles: Vec<Particle>,
+    rng: Rng,
 }
 
 impl State {
     pub fn new(config: Config) -> Self {
         State {
             history: Vec::new(),
-            config,
             particles: Vec::new(),
+            rng: Rng::seed_from_u64(config.seed()),
+            config,
         }
     }
 
@@ -39,7 +45,7 @@ impl State {
             let force = if let Some(repulsion) = particle_a.repulsion_from(particle_b) {
                 self.config.repulsion_constant() * repulsion
             } else {
-                Vector::new(1e-3, 0.)
+                Vector::random_unit(&mut self.rng) * self.config.indentical_particle_repulsion()
             };
             let velocity_delta = force * self.config.delta_per_tick();
             particle_a.velocity += velocity_delta;

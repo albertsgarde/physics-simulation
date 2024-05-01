@@ -7,4 +7,6 @@ edition = "2021"
 
 [dependencies]
 itertools = "0.12.1"
+rand = { version = "0.8.5", features = ["serde1"] }
+rand_xoshiro = { version = "0.6.0", features = ["serde1"] }
 serde = { version = "1.0.199", features = ["derive"] }

@@ -40,11 +40,11 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 async fn main() {
-    let config = Config::new(0.05, Vector::new(0., -9.81), 64., 64., 1., 0.1, 100.);
+    let config = Config::new(0.01, Vector::new(0., -9.81), 64., 64., 1., 0.1, 100.);
 
     let mut state = State::new(config);
 
-    let ui_config: UiConfig = UiConfig::new(200., Vector::new(0., 0.), 10.);
+    let ui_config: UiConfig = UiConfig::new(100., Vector::new(0., 0.), 10.);
 
     let mut ui_state = ui_config.new_ui_state();
     ui_state.set_offset(ui_state.offset_from_mid_offset(Vector::new(0., 0.), &state));

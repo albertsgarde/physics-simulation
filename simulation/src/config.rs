@@ -4,6 +4,7 @@ use crate::Vector;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
+    seed: u64,
     delta_per_tick: f32,
     gravity: Vector,
     width: f32,
@@ -11,6 +12,7 @@ pub struct Config {
     repulsion_constant: f32,
     air_resistance: f32,
     max_speed: f32,
+    indentical_particle_repulsion: f32,
 }
 
 impl Config {
@@ -24,6 +26,7 @@ impl Config {
         max_speed: f32,
     ) -> Self {
         Self {
+            seed: 0,
             delta_per_tick,
             gravity,
             width,
@@ -31,7 +34,12 @@ impl Config {
             repulsion_constant,
             air_resistance,
             max_speed,
+            indentical_particle_repulsion: 1e-2,
         }
+    }
+
+    pub fn seed(&self) -> u64 {
+        self.seed
     }
 
     pub fn delta_per_tick(&self) -> f32 {
@@ -60,5 +68,9 @@ impl Config {
 
     pub fn max_speed(&self) -> f32 {
         self.max_speed
+    }
+
+    pub fn indentical_particle_repulsion(&self) -> f32 {
+        self.indentical_particle_repulsion
     }
 }

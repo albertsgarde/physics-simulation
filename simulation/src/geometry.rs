@@ -3,6 +3,7 @@ use std::{
     ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
 };
 
+use rand::Rng;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
@@ -42,6 +43,11 @@ impl Vector {
 
     pub fn normalize(self) -> Self {
         self / self.norm()
+    }
+
+    pub fn random_unit(rng: &mut impl Rng) -> Self {
+        let angle = rng.gen_range(0. ..2. * std::f32::consts::PI);
+        Vector::new(angle.cos(), angle.sin())
     }
 }
 
