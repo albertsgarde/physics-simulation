@@ -40,13 +40,13 @@ impl UiState {
         let mid_vec = Vector::new(self.screen_width / 2., self.screen_height / 2.);
         let offset = mid_offset + mid_vec
             - 0.5 * self.scale * Vector::new(state.config().width(), state.config().height());
-        Vector::new(offset.x(), offset.y())
+        Vector::new(offset.x, offset.y)
     }
 
     pub fn world_to_screen(&self, location: Location) -> ScreenPosition {
         ScreenPosition {
-            x: location.x() * self.scale + self.offset.x(),
-            y: self.screen_height - (location.y() * self.scale + self.offset.y()),
+            x: location.x * self.scale + self.offset.x,
+            y: self.screen_height - (location.y * self.scale + self.offset.y),
         }
     }
 

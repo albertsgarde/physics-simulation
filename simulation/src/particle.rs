@@ -21,17 +21,32 @@ impl Particle {
         self.velocity
     }
 
-    pub fn add_velocity(self, velocity: Vector) -> Self {
-        Particle {
-            location: self.location,
-            velocity: self.velocity + velocity,
-        }
-    }
+    pub fn rebound(&mut self, x_limits: (f32, f32), y_limits: (f32, f32)) {
+        let (x_min, x_max) = x_limits;
+        let (y_min, y_max) = y_limits;
 
-    pub fn update_local(self, delta: f32) -> Self {
-        Particle {
-            location: self.location + self.velocity * delta,
-            velocity: self.velocity,
+        if self.location.x < x_min {
+            self.location.x = 2. * x_min - self.location.x;
+            self.velocity.x *= -1.;
+        } else if self.location.x > x_max {
+            self.location.x = 2. * x_max - self.location.x;
+            self.velocity.x *= -1.;
         }
+        assert!(
+            self.location.x >= x_min && self.location.x <= x_max,
+            "{self:?}"
+        );
+
+        if self.location.y < y_min {
+            self.location.y = 2. * y_min - self.location.y;
+            self.velocity.y *= -1.;
+        } else if self.location.y > y_max {
+            self.location.y = 2. * y_max - self.location.y;
+            self.velocity.y *= -1.;
+        }
+        assert!(
+            self.location.y >= y_min && self.location.y <= y_max,
+            "{self:?}"
+        );
     }
 }

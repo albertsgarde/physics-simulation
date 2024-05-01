@@ -38,6 +38,8 @@ impl State {
         self.particles.iter_mut().for_each(|particle| {
             particle.velocity += self.config.gravity() * self.config.delta_per_tick();
             particle.location += particle.velocity * self.config.delta_per_tick();
+
+            particle.rebound((0., self.config.width()), (0., self.config.height()));
         });
 
         self.history.push(events);
