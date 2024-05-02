@@ -18,6 +18,14 @@ impl Location {
     pub fn new(x: f32, y: f32) -> Self {
         Location { x, y }
     }
+
+    pub fn dist_squared(self, other: Location) -> f32 {
+        (self - other).norm_squared()
+    }
+
+    pub fn dist(self, other: Location) -> f32 {
+        (self - other).norm()
+    }
 }
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize)]

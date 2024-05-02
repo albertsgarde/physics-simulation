@@ -13,6 +13,7 @@ pub struct Config {
     pub air_resistance: f32,
     pub max_speed: f32,
     pub indentical_particle_repulsion: f32,
+    pub repulsion_distance: f32,
 }
 
 impl Default for Config {
@@ -27,6 +28,7 @@ impl Default for Config {
             air_resistance: 0.1,
             max_speed: 100.,
             indentical_particle_repulsion: 1e-2,
+            repulsion_distance: 10.,
         }
     }
 }
