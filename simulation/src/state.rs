@@ -19,7 +19,7 @@ impl State {
         State {
             history: Vec::new(),
             particles: Vec::new(),
-            rng: Rng::seed_from_u64(config.seed()),
+            rng: Rng::seed_from_u64(config.seed),
             config,
         }
     }
@@ -43,28 +43,26 @@ impl State {
 
         utils::all_pairs_mut(self.particles.as_mut_slice(), |particle_a, particle_b| {
             let force = if let Some(repulsion) = particle_a.repulsion_from(particle_b) {
-                self.config.repulsion_constant() * repulsion
+                self.config.repulsion_constant * repulsion
             } else {
-                Vector::random_unit(&mut self.rng) * self.config.indentical_particle_repulsion()
+                Vector::random_unit(&mut self.rng) * self.config.indentical_particle_repulsion
             };
-            let velocity_delta = force * self.config.delta_per_tick();
+            let velocity_delta = force * self.config.delta_per_tick;
             particle_a.velocity += velocity_delta;
             particle_b.velocity -= velocity_delta;
         });
 
         self.particles.iter_mut().for_each(|particle| {
-            particle.velocity += self.config.delta_per_tick()
-                * (self.config.gravity()
-                    + particle.air_resistance() * self.config.air_resistance());
+            particle.velocity += self.config.delta_per_tick
+                * (self.config.gravity + particle.air_resistance() * self.config.air_resistance);
 
-            if particle.velocity.norm_squared() > self.config.max_speed() * self.config.max_speed()
-            {
-                particle.velocity = particle.velocity.normalize() * self.config.max_speed();
+            if particle.velocity.norm_squared() > self.config.max_speed * self.config.max_speed {
+                particle.velocity = particle.velocity.normalize() * self.config.max_speed;
             }
 
-            particle.location += particle.velocity * self.config.delta_per_tick();
+            particle.location += particle.velocity * self.config.delta_per_tick;
 
-            particle.rebound((0., self.config.width()), (0., self.config.height()));
+            particle.rebound((0., self.config.width), (0., self.config.height));
         });
 
         self.history.push(events);

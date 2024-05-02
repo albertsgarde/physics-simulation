@@ -47,7 +47,7 @@ impl UiState {
     pub fn offset_from_mid_offset(&self, mid_offset: Vector, state: &State) -> Vector {
         let mid_vec = Vector::new(self.screen_width / 2., self.screen_height / 2.);
         let offset = mid_offset + mid_vec
-            - 0.5 * self.scale * Vector::new(state.config().width(), state.config().height());
+            - 0.5 * self.scale * Vector::new(state.config().width, state.config().height);
         Vector::new(offset.x, offset.y)
     }
 

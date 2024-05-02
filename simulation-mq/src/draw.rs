@@ -18,10 +18,8 @@ pub fn draw_particle(particle: Particle, ui_state: &UiState) {
 
 pub fn draw(state: &State, ui_state: &UiState) {
     let lower_left = ui_state.world_to_screen(Location::new(0., 0.));
-    let upper_right = ui_state.world_to_screen(Location::new(
-        state.config().width(),
-        state.config().height(),
-    ));
+    let upper_right =
+        ui_state.world_to_screen(Location::new(state.config().width, state.config().height));
 
     macroquad::shapes::draw_rectangle(
         lower_left.x,
