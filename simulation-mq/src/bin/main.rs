@@ -40,7 +40,7 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 async fn main() {
-    let config = Config::new(0.01, Vector::new(0., -9.81), 64., 64., 1., 0.1, 100.);
+    let config = Config::default();
 
     let mut state = State::new(config);
 

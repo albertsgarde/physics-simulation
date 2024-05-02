@@ -1,4 +1,4 @@
 [workspace]
 members = ["simulation-mq", "simulation"]
-default-members = ["simulation-mq"]
+default-members = ["simulation-mq", "simulation"]
 resolver = "2"

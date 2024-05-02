@@ -13,6 +13,8 @@ pub struct Location {
 }
 
 impl Location {
+    pub const ORIGIN: Location = Location { x: 0., y: 0. };
+
     pub fn new(x: f32, y: f32) -> Self {
         Location { x, y }
     }
@@ -25,6 +27,8 @@ pub struct Vector {
 }
 
 impl Vector {
+    pub const ZERO: Vector = Vector { x: 0., y: 0. };
+
     pub fn new(x: f32, y: f32) -> Self {
         Vector { x, y }
     }

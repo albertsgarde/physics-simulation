@@ -4,40 +4,34 @@ use crate::Vector;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
-    seed: u64,
-    delta_per_tick: f32,
-    gravity: Vector,
-    width: f32,
-    height: f32,
-    repulsion_constant: f32,
-    air_resistance: f32,
-    max_speed: f32,
-    indentical_particle_repulsion: f32,
+    pub seed: u64,
+    pub delta_per_tick: f32,
+    pub gravity: Vector,
+    pub width: f32,
+    pub height: f32,
+    pub repulsion_constant: f32,
+    pub air_resistance: f32,
+    pub max_speed: f32,
+    pub indentical_particle_repulsion: f32,
 }
 
-impl Config {
-    pub fn new(
-        delta_per_tick: f32,
-        gravity: Vector,
-        width: f32,
-        height: f32,
-        repulsion_constant: f32,
-        air_resistance: f32,
-        max_speed: f32,
-    ) -> Self {
+impl Default for Config {
+    fn default() -> Self {
         Self {
             seed: 0,
-            delta_per_tick,
-            gravity,
-            width,
-            height,
-            repulsion_constant,
-            air_resistance,
-            max_speed,
+            delta_per_tick: 0.01,
+            gravity: Vector::new(0., -9.81),
+            width: 64.,
+            height: 64.,
+            repulsion_constant: 5.,
+            air_resistance: 0.1,
+            max_speed: 100.,
             indentical_particle_repulsion: 1e-2,
         }
     }
+}
 
+impl Config {
     pub fn seed(&self) -> u64 {
         self.seed
     }
