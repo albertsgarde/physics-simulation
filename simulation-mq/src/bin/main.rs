@@ -1,11 +1,11 @@
 use std::iter;
 
 use macroquad::{
-    input, time,
+    time,
     window::{self, Conf},
 };
 use simulation::{Config, Event, Location, Particle, State, Vector};
-use simulation_mq::{draw, ScreenPosition, UiConfig};
+use simulation_mq::{draw, UiConfig};
 
 trait TickFunction: FnMut() {}
 
@@ -44,7 +44,7 @@ async fn main() {
 
     let mut state = State::new(config);
 
-    let ui_config: UiConfig = UiConfig::new(400., Vector::new(0., 0.), 10.);
+    let ui_config: UiConfig = UiConfig::new(400., Vector::new(0., 0.), 10., 3.);
 
     let mut ui_state = ui_config.new_ui_state();
     ui_state.set_offset(ui_state.offset_from_mid_offset(Vector::new(0., 0.), &state));

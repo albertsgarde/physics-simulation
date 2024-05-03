@@ -7,14 +7,21 @@ pub struct UiConfig {
     ticks_per_second: f32,
     initial_offset: Vector,
     initial_scale: f32,
+    zoom_speed: f32,
 }
 
 impl UiConfig {
-    pub fn new(ticks_per_second: f32, initial_offset: Vector, initial_scale: f32) -> Self {
+    pub fn new(
+        ticks_per_second: f32,
+        initial_offset: Vector,
+        initial_scale: f32,
+        zoom_speed: f32,
+    ) -> Self {
         Self {
             ticks_per_second,
             initial_offset,
             initial_scale,
+            zoom_speed,
         }
     }
 
@@ -28,6 +35,10 @@ impl UiConfig {
 
     pub fn initial_scale(&self) -> f32 {
         self.initial_scale
+    }
+
+    pub fn zoom_speed(&self) -> f32 {
+        self.zoom_speed
     }
 
     pub fn new_ui_state(&self) -> UiState {

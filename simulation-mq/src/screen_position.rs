@@ -37,3 +37,21 @@ impl Sub<ScreenPosition> for ScreenPosition {
         Vector::new(self.x - other.x, self.y - other.y)
     }
 }
+
+impl From<Vector> for ScreenPosition {
+    fn from(vector: Vector) -> Self {
+        Self {
+            x: vector.x,
+            y: vector.y,
+        }
+    }
+}
+
+impl From<ScreenPosition> for Vector {
+    fn from(screen_position: ScreenPosition) -> Self {
+        Self {
+            x: screen_position.x,
+            y: screen_position.y,
+        }
+    }
+}

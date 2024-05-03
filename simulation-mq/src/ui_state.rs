@@ -1,7 +1,7 @@
 use std::iter;
 
-use macroquad::{experimental::camera::mouse, input, window};
-use simulation::{Event, Location, Particle, State, Vector};
+use macroquad::{input, window};
+use simulation::{Event, Location, State, Vector};
 
 use crate::{ScreenPosition, UiConfig};
 
@@ -83,11 +83,21 @@ impl UiState {
         let mouse_position = ScreenPosition::from_tuple(mouse_position);
         let mouse_delta = self.last_mouse_position.map(|last| mouse_position - last);
 
+        let mouse_wheel_delta = input::mouse_wheel().1;
+
         if input::is_mouse_button_down(input::MouseButton::Right) {
             if let Some(mouse_delta) = mouse_delta {
                 let mouse_delta = Vector::new(mouse_delta.x, mouse_delta.y);
                 self.offset += mouse_delta;
             }
+        }
+
+        if mouse_wheel_delta != 0. {
+            let scale_factor = (mouse_wheel_delta / 10000. * self.config.zoom_speed()).exp();
+            self.scale *= scale_factor;
+
+            let mouse_to_offset = ScreenPosition::from(self.offset) - mouse_position;
+            self.offset = Vector::from(mouse_position + mouse_to_offset * scale_factor);
         }
 
         self.last_mouse_position = Some(mouse_position);
