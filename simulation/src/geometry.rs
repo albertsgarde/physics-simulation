@@ -199,3 +199,12 @@ impl Sum for Vector {
         iter.fold(Vector::new(0., 0.), Add::add)
     }
 }
+
+impl From<Location> for Vector {
+    fn from(location: Location) -> Vector {
+        Vector {
+            x: location.x,
+            y: location.y,
+        }
+    }
+}

@@ -1,5 +1,7 @@
-use macroquad::window;
-use simulation::{Location, State, Vector};
+use std::iter;
+
+use macroquad::{experimental::camera::mouse, input, window};
+use simulation::{Event, Location, Particle, State, Vector};
 
 use crate::{ScreenPosition, UiConfig};
 
@@ -7,8 +9,10 @@ pub struct UiState {
     config: UiConfig,
     screen_width: f32,
     screen_height: f32,
+    /// Where in screen coordinates the world origin is drawn.
     offset: Vector,
     scale: f32,
+    last_mouse_position: Option<ScreenPosition>,
 }
 
 impl UiState {
@@ -20,6 +24,7 @@ impl UiState {
             screen_height,
             offset: config.initial_offset(),
             scale: config.initial_scale(),
+            last_mouse_position: None,
             config,
         }
     }
@@ -46,22 +51,21 @@ impl UiState {
 
     pub fn offset_from_mid_offset(&self, mid_offset: Vector, state: &State) -> Vector {
         let mid_vec = Vector::new(self.screen_width / 2., self.screen_height / 2.);
-        let offset = mid_offset + mid_vec
-            - 0.5 * self.scale * Vector::new(state.config().width, state.config().height);
-        Vector::new(offset.x, offset.y)
+        mid_offset + mid_vec
+            - 0.5 * self.scale * Vector::new(state.config().width, -state.config().height)
     }
 
     pub fn world_to_screen(&self, location: Location) -> ScreenPosition {
         ScreenPosition {
             x: location.x * self.scale + self.offset.x,
-            y: self.screen_height - (location.y * self.scale + self.offset.y),
+            y: self.offset.y - (location.y * self.scale),
         }
     }
 
     pub fn screen_to_world(&self, position: ScreenPosition) -> Location {
         Location {
             x: (position.x - self.offset.x) / self.scale,
-            y: (self.screen_height - position.y - self.offset.y) / self.scale,
+            y: (self.screen_height - (position.y - self.offset.y)) / self.scale,
         }
     }
 
@@ -72,5 +76,22 @@ impl UiState {
     pub fn update_window_info(&mut self) {
         self.screen_width = window::screen_width();
         self.screen_height = window::screen_height();
+    }
+
+    pub fn handle_input(&mut self) -> impl IntoIterator<Item = Event> + '_ {
+        let mouse_position = input::mouse_position();
+        let mouse_position = ScreenPosition::from_tuple(mouse_position);
+        let mouse_delta = self.last_mouse_position.map(|last| mouse_position - last);
+
+        if input::is_mouse_button_down(input::MouseButton::Right) {
+            if let Some(mouse_delta) = mouse_delta {
+                let mouse_delta = Vector::new(mouse_delta.x, mouse_delta.y);
+                self.offset += mouse_delta;
+            }
+        }
+
+        self.last_mouse_position = Some(mouse_position);
+
+        iter::empty()
     }
 }

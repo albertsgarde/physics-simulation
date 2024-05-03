@@ -44,7 +44,7 @@ async fn main() {
 
     let mut state = State::new(config);
 
-    let ui_config: UiConfig = UiConfig::new(100., Vector::new(0., 0.), 10.);
+    let ui_config: UiConfig = UiConfig::new(400., Vector::new(0., 0.), 10.);
 
     let mut ui_state = ui_config.new_ui_state();
     ui_state.set_offset(ui_state.offset_from_mid_offset(Vector::new(0., 0.), &state));
@@ -58,21 +58,8 @@ async fn main() {
     .take(1000)
     .collect();
 
-    let mut prev_mouse_position = None;
-
     loop {
-        let mouse_position = ScreenPosition::from_tuple(input::mouse_position());
-        let mouse_delta =
-            prev_mouse_position.map_or(Vector::new(0., 0.), |prev| mouse_position - prev);
-
-        if input::is_mouse_button_pressed(input::MouseButton::Left) {
-            events.push(Event::AddParticle(Particle::new(
-                ui_state.screen_to_world(mouse_position),
-                mouse_delta / ui_state.scale(),
-            )));
-        }
-
-        prev_mouse_position = Some(mouse_position);
+        events.extend(ui_state.handle_input());
 
         tick.elapse_time(
             time::get_frame_time() * ui_config.ticks_per_second(),
