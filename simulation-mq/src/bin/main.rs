@@ -19,7 +19,11 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 async fn main() {
-    let config = Config::default();
+    let config = Config {
+        width: 128.,
+        repulsion_distance: 5.,
+        ..Config::default()
+    };
 
     let mut state = State::new(config);
 
