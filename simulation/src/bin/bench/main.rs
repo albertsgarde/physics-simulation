@@ -3,7 +3,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-use simulation::{Config, Event, Location, Particle, State, Vector};
+use simulation::{Config, Event, Float, Location, Particle, State, Vector};
 
 pub fn run_bench<F, E>(config: Config, mut events: F, duration: Duration) -> u64
 where
@@ -64,16 +64,16 @@ pub fn close_particles(location: Location, velocity: Vector, amount: usize) -> V
         .collect()
 }
 
-pub fn distributed_particles(width: f32, height: f32, amount: usize) -> Vec<Particle> {
-    let grid_size = (amount as f32).sqrt().ceil() as usize;
-    let particle_x_dist = width / grid_size as f32;
-    let particle_y_dist = height / grid_size as f32;
+pub fn distributed_particles(width: Float, height: Float, amount: usize) -> Vec<Particle> {
+    let grid_size = (amount as Float).sqrt().ceil() as usize;
+    let particle_x_dist = width / grid_size as Float;
+    let particle_y_dist = height / grid_size as Float;
     (0..amount)
         .map(|i| {
             Particle::new(
                 Location::new(
-                    particle_x_dist * (i % grid_size) as f32 + particle_x_dist / 2.,
-                    particle_y_dist * (i / grid_size) as f32 + particle_y_dist / 2.,
+                    particle_x_dist * (i % grid_size) as Float + particle_x_dist / 2.,
+                    particle_y_dist * (i / grid_size) as Float + particle_y_dist / 2.,
                 ),
                 Vector::new(0., 0.),
             )
@@ -99,6 +99,14 @@ pub fn main() {
             &format!("distributed_particles_{amount}"),
             &config,
             distributed_particles(64., 64., amount),
+            duration,
+        );
+    }
+    for &amount in [1, 10, 100, 1000, 10000].iter() {
+        bench_and_report(
+            &format!("wide_distributed_particles_{amount}"),
+            &config,
+            distributed_particles(128., 64., amount),
             duration,
         );
     }

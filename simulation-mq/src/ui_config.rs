@@ -1,11 +1,9 @@
-use simulation::Vector;
-
-use crate::ui_state::UiState;
+use crate::{screen_position::ScreenVector, ui_state::UiState};
 
 #[derive(Debug, Clone)]
 pub struct UiConfig {
     ticks_per_second: f32,
-    initial_offset: Vector,
+    initial_offset: ScreenVector,
     initial_scale: f32,
     zoom_speed: f32,
 }
@@ -13,7 +11,7 @@ pub struct UiConfig {
 impl UiConfig {
     pub fn new(
         ticks_per_second: f32,
-        initial_offset: Vector,
+        initial_offset: ScreenVector,
         initial_scale: f32,
         zoom_speed: f32,
     ) -> Self {
@@ -29,7 +27,7 @@ impl UiConfig {
         self.ticks_per_second
     }
 
-    pub fn initial_offset(&self) -> Vector {
+    pub fn initial_offset(&self) -> ScreenVector {
         self.initial_offset
     }
 

@@ -1,19 +1,19 @@
 use serde::{Deserialize, Serialize};
 
-use crate::Vector;
+use crate::{Float, Vector};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
     pub seed: u64,
-    pub delta_per_tick: f32,
+    pub delta_per_tick: Float,
     pub gravity: Vector,
-    pub width: f32,
-    pub height: f32,
-    pub repulsion_constant: f32,
-    pub air_resistance: f32,
-    pub max_speed: f32,
-    pub indentical_particle_repulsion: f32,
-    pub repulsion_distance: f32,
+    pub width: Float,
+    pub height: Float,
+    pub repulsion_constant: Float,
+    pub air_resistance: Float,
+    pub max_speed: Float,
+    pub indentical_particle_repulsion: Float,
+    pub repulsion_distance: Float,
 }
 
 impl Default for Config {
