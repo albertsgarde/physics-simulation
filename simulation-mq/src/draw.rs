@@ -16,7 +16,7 @@ pub fn draw_particle(particle: Particle, ui_state: &UiState) {
     draw_circle(screen_position, 1., color::WHITE);
 }
 
-pub fn draw(state: &State, ui_state: &UiState) {
+pub fn draw(state: &State, ui_state: &UiState, tps: u32) {
     let lower_left = ui_state.world_to_screen(Location::new(0., 0.));
     let upper_right =
         ui_state.world_to_screen(Location::new(state.config().width, state.config().height));
@@ -34,4 +34,6 @@ pub fn draw(state: &State, ui_state: &UiState) {
     particles
         .iter()
         .for_each(|&particle| draw_particle(particle, ui_state));
+
+    macroquad::text::draw_text(&format!("TPS: {}", tps), 10., 20., 20., color::WHITE);
 }
