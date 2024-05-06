@@ -6,7 +6,7 @@ use std::{
 
 use macroquad::window::{self, Conf};
 use simulation::{Config, Event, Location, Particle, State, Vector};
-use simulation_mq::{draw, UiConfig};
+use simulation_mq::{draw, ScreenVector, UiConfig};
 
 fn window_conf() -> Conf {
     Conf {
@@ -27,10 +27,10 @@ async fn main() {
 
     let mut state = State::new(config);
 
-    let ui_config: UiConfig = UiConfig::new(4000., Vector::new(0., 0.), 10., 3.);
+    let ui_config: UiConfig = UiConfig::new(600., ScreenVector::new(0., 0.), 10., 3.);
 
     let mut ui_state = ui_config.new_ui_state();
-    ui_state.set_offset(ui_state.offset_from_mid_offset(Vector::new(0., 0.), &state));
+    ui_state.set_offset(ui_state.offset_from_mid_offset(ScreenVector::new(0., 0.), &state));
 
     let (event_sender, event_receiver) = mpsc::channel();
     let (state_sender, mut state_receiver) = watch::channel(state.clone());

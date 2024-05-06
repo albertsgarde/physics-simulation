@@ -1,6 +1,9 @@
 use serde::{Deserialize, Serialize};
 
-use crate::geometry::{Location, Vector};
+use crate::{
+    geometry::{Location, Vector},
+    Float,
+};
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
 pub struct Particle {
@@ -38,7 +41,7 @@ impl Particle {
         -self.velocity * self.velocity.norm()
     }
 
-    pub fn rebound(&mut self, x_limits: (f32, f32), y_limits: (f32, f32)) {
+    pub fn rebound(&mut self, x_limits: (Float, Float), y_limits: (Float, Float)) {
         let (x_min, x_max) = x_limits;
         let (y_min, y_max) = y_limits;
 

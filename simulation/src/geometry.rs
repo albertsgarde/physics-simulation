@@ -6,50 +6,52 @@ use std::{
 use rand::Rng;
 use serde::{Deserialize, Serialize};
 
+use crate::Float;
+
 #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
 pub struct Location {
-    pub x: f32,
-    pub y: f32,
+    pub x: Float,
+    pub y: Float,
 }
 
 impl Location {
     pub const ORIGIN: Location = Location { x: 0., y: 0. };
 
-    pub fn new(x: f32, y: f32) -> Self {
+    pub fn new(x: Float, y: Float) -> Self {
         Location { x, y }
     }
 
-    pub fn dist_squared(self, other: Location) -> f32 {
+    pub fn dist_squared(self, other: Location) -> Float {
         (self - other).norm_squared()
     }
 
-    pub fn dist(self, other: Location) -> f32 {
+    pub fn dist(self, other: Location) -> Float {
         (self - other).norm()
     }
 }
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
 pub struct Vector {
-    pub x: f32,
-    pub y: f32,
+    pub x: Float,
+    pub y: Float,
 }
 
 impl Vector {
     pub const ZERO: Vector = Vector { x: 0., y: 0. };
 
-    pub fn new(x: f32, y: f32) -> Self {
+    pub fn new(x: Float, y: Float) -> Self {
         Vector { x, y }
     }
 
-    pub fn dot(&self, other: Vector) -> f32 {
+    pub fn dot(&self, other: Vector) -> Float {
         self.x * other.x + self.y * other.y
     }
 
-    pub fn norm_squared(self) -> f32 {
+    pub fn norm_squared(self) -> Float {
         self.dot(self)
     }
 
-    pub fn norm(self) -> f32 {
+    pub fn norm(self) -> Float {
         self.norm_squared().sqrt()
     }
 
@@ -58,7 +60,7 @@ impl Vector {
     }
 
     pub fn random_unit(rng: &mut impl Rng) -> Self {
-        let angle = rng.gen_range(0. ..2. * std::f32::consts::PI);
+        let angle = rng.gen_range(0. ..2. * crate::PI);
         Vector::new(angle.cos(), angle.sin())
     }
 }
@@ -140,23 +142,23 @@ impl Sub<Location> for Location {
     }
 }
 
-impl MulAssign<f32> for Vector {
-    fn mul_assign(&mut self, rhs: f32) {
+impl MulAssign<Float> for Vector {
+    fn mul_assign(&mut self, rhs: Float) {
         self.x *= rhs;
         self.y *= rhs;
     }
 }
 
-impl Mul<f32> for Vector {
+impl Mul<Float> for Vector {
     type Output = Vector;
 
-    fn mul(mut self, rhs: f32) -> Vector {
+    fn mul(mut self, rhs: Float) -> Vector {
         self *= rhs;
         self
     }
 }
 
-impl Mul<Vector> for f32 {
+impl Mul<Vector> for Float {
     type Output = Vector;
 
     fn mul(self, rhs: Vector) -> Vector {
@@ -167,17 +169,17 @@ impl Mul<Vector> for f32 {
     }
 }
 
-impl DivAssign<f32> for Vector {
-    fn div_assign(&mut self, rhs: f32) {
+impl DivAssign<Float> for Vector {
+    fn div_assign(&mut self, rhs: Float) {
         self.x /= rhs;
         self.y /= rhs;
     }
 }
 
-impl Div<f32> for Vector {
+impl Div<Float> for Vector {
     type Output = Vector;
 
-    fn div(mut self, rhs: f32) -> Vector {
+    fn div(mut self, rhs: Float) -> Vector {
         self /= rhs;
         self
     }
