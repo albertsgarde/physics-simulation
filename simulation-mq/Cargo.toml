@@ -10,3 +10,4 @@ default-run = "main"
 clap = "4.5.4"
 macroquad = "0.4.5"
 simulation = { version = "0.1.0", path = "../simulation" }
+watch = "0.2.3"
